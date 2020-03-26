@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/posts"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{post?.title.rendered}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-card  *ngIf="post">
+    <ion-card-header>
+      <ion-card-subtitle>{{ post.date_gmt | date }}</ion-card-subtitle>
+      <ion-card-title>{{post?.title.rendered}}</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <div [innerHTML]="post?.content.rendered" padding></div>
+    </ion-card-content>
+  </ion-card>
+   
+</ion-content>
+
+<ion-footer color="secondary">
+  <ion-toolbar>
+    <ion-button expand="full" fill="clear" (click)="openOriginal()">
+      Open Original
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
