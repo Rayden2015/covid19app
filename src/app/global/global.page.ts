@@ -41,14 +41,14 @@ export class GlobalPage  {
     await loading.present();
 
     await this.http.get(this.baseUrl).subscribe((data: any) => {
-      console.log('Global');
-      console.log(data);
+      //('Global');
+      //console.log(data);
 
       if ( data.lastUpdate > localStorage.getItem('globalLastUpdated') ) {
-        console.log('New Cases Recorded');
+       //console.log('New Cases Recorded');
         this.notifyMe('New Global Cases Reported');
       } else {
-        console.log('Nothinng has changed');
+       // console.log('Nothinng has changed');
       }
 
       localStorage.setItem('globalLastUpdated', data.lastUpdate);
@@ -64,8 +64,8 @@ export class GlobalPage  {
 
   async countries() {
     await this.http.get('https://restcountries.eu/rest/v2/').subscribe((data: any) => {
-      console.log('Countries');
-      console.log(data);
+      //console.log('Countries');
+      //console.log(data);
       this.countriesBlock = data;
     });
   }
@@ -76,16 +76,16 @@ export class GlobalPage  {
     });
     await loading.present();
     localStorage.setItem('DefaultCountry', this.selectedCountry);
-    console.log('Country Selected : ');
-    console.log(this.selectedCountry);
+    //('Country Selected : ');
+    //console.log(this.selectedCountry);
     await this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
-      console.log('Country Cases');
-      console.log(data);
+      //console.log('Country Cases');
+      //console.log(data);
       if ( data.lastUpdate > localStorage.getItem('countryLastUpdated') ) {
-        console.log('New Case Recorded');
+        //console.log('New Case Recorded');
         this.notifyMe('New Cases Reported in ' + this.selectedCountry);
       } else {
-        console.log('Nothinng has changed');
+        //console.log('Nothinng has changed');
       }
       localStorage.setItem('countryLastUpdated', data.lastUpdate);
       this.countryCases = data;
@@ -105,7 +105,7 @@ export class GlobalPage  {
 
    notifyMe(msg: string) {
     if (!Notification) {
-        console.log('Browser does not support notifications.');
+        //console.log('Browser does not support notifications.');
     } else {
         // check if permission is already granted
         if (Notification.permission === 'granted') {
