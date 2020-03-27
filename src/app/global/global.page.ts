@@ -2,6 +2,7 @@ import { RouterModule, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { LoadingController } from '@ionic/angular';
+import { WordpressService } from '../services/wordpress.service';
 
 @Component({
   selector: 'app-global',
@@ -10,7 +11,7 @@ import { LoadingController } from '@ionic/angular';
 })
 
 export class GlobalPage  {
-  constructor(private http: HttpClient, public loadingCtrl: LoadingController, private router: Router) {}
+  constructor(private http: HttpClient, public loadingCtrl: LoadingController, private router: Router, private wp: WordpressService) {}
   baseUrl = 'https://covid19.mathdro.id/api';
   dataBlock: any;
   countriesBlock: any;
@@ -19,6 +20,10 @@ export class GlobalPage  {
   countryLastUpated: string;
   globalLastUpdated: string;
   msg: string;
+
+  posts = [];
+  page = 1;
+  count = null;
 
 
 
@@ -32,6 +37,8 @@ export class GlobalPage  {
     this.getCountryCases();
     this.getGlobalCases();
     setInterval(this.runAm, 900000);
+
+    //this.loadPosts();
   }
 
   async getGlobalCases() {
@@ -100,6 +107,7 @@ export class GlobalPage  {
     console.log('RUN AM');
     this.getGlobalCases();
     this.getCountryCases();
+    //this.loadPosts();
   }
 
 
@@ -136,6 +144,34 @@ export class GlobalPage  {
 goToNews() {
   this.router.navigate(['/posts']);
  //this.router.navigateByUrl('/posts');
+}
+
+
+async loadPosts() {
+  const loading = await this.loadingCtrl.create({
+    message: 'Loading News...'
+  });
+  await loading.present();
+
+  this.wp.getPosts().subscribe( res => {
+    this.count = this.wp.totalPosts;
+    this.posts = res;
+    loading.dismiss();
+  });
+}
+
+loadMore(event) {
+this.page++;
+
+this.wp.getPosts(this.page).subscribe(res => {
+  this.posts = [...this.posts, ...res];
+  event.target.complete();
+
+  // Disable infinite loading when maximum number of pages is reached
+  if (this.page === this.wp.pages) {
+    event.target.disabled = true;
+  }
+});
 }
 
 }

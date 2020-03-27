@@ -2,8 +2,8 @@
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <!-- [routerLink]="['/', 'about']" -->
-      <ion-button  href="/about">
-        <ion-icon slot="icon-only" name="information-circle-outline">About</ion-icon>
+      <ion-button  href="/about">About
+        <ion-icon slot="start" name="information-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
     
@@ -12,10 +12,10 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <!-- <ion-button [routerLink]="['/','posts']" > -->
-        <ion-button href="/posts" >
-        <ion-icon slot="icon-only" name="newspaper-outline"></ion-icon>
+        <ion-button href="/posts" >News
+        <ion-icon slot="end" name="newspaper-outline"></ion-icon>
       </ion-button>
+
     </ion-buttons>
     
   </ion-toolbar>
@@ -102,6 +102,32 @@
     </ion-row>
   </ion-grid>
   
+<!-- 
+  <ion-item-divider>
+    <ion-label> News</ion-label> 
+  </ion-item-divider>
+
+
+  <ion-card *ngFor="let post of posts">
+    <ion-card-header>
+      <ion-card-title [innerHTML]="post.title.rendered"></ion-card-title>
+      <ion-card-subtitle>{{ post.date_gmt | date }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+
+      <div [innerHTML]="post.excerpt.rendered"></div>
+      <ion-button expand="full" fill="clear" [routerLink]="['/', 'post', post.id ]" text-right>Read More...</ion-button>
+      
+    </ion-card-content>
+  </ion-card>
+
+  <ion-infinite-scroll threshold="900px" (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingText="Loading more news..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
+
+
+
+
 
 
 </ion-content>
