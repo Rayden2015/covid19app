@@ -40,15 +40,17 @@
         <ion-card class="ion-text-center  confirmed">
           <ion-card-title class="text-confirmed" >Confirmed</ion-card-title>
           <h1 class="text-center"> {{this.dataBlock.confirmed.value}}</h1>
+          <span>00</span>
         </ion-card>
       </ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col>
-      <ion-card class="ion-text-center recovered">
+      <ion-card class="ion-text-center recovered" color="green">
         <ion-card-title class="text-recovered" >Recovered</ion-card-title>
        <h1 class="text-center">{{this.dataBlock.recovered.value}}</h1>
+       <span>{{this.dataBlock.recovered.value / this.dataBlock.confirmed.value | percent}}</span>
      </ion-card>
     </ion-col>
   </ion-row>
@@ -58,6 +60,7 @@
     <ion-card class="ion-text-center deaths">
       <ion-card-title class ="text-deaths" >Deaths</ion-card-title>
      <h1 class="text-center">{{this.dataBlock.deaths.value}}</h1>
+     <span>{{this.dataBlock.deaths.value / this.dataBlock.confirmed.value | percent}}</span>
    </ion-card>
   </ion-col>
   </ion-row>
@@ -85,18 +88,22 @@
         <ion-card class="ion-text-center confirmed" >
           <ion-card-title class="text-confirmed" >Confirmed</ion-card-title>
           <h1 class="text-center"> {{this.countryCases.confirmed.value}}</h1>
+          <span>00</span>
         </ion-card>
       </ion-col>
       <ion-col>
         <ion-card class="ion-text-center recovered">
           <ion-card-title class ="text-recovered" >Recovered</ion-card-title>
-         <h1 class="text-center">{{this.countryCases.recovered.value}}</h1>
+         <h1 class="text-center">{{this.countryCases.recovered.value}}  </h1>
+         <span>{{this.countryCases.recovered.value / this.countryCases.confirmed.value | percent}}</span>
+         
        </ion-card>
       </ion-col>
       <ion-col>
         <ion-card class="ion-text-center deaths">
           <ion-card-title class="text-deaths" >Deaths</ion-card-title>
          <h1 class="text-center text">{{this.countryCases.deaths.value}}</h1>
+         <span>{{this.countryCases.deaths.value / this.countryCases.confirmed.value | percent}}</span>
        </ion-card>
       </ion-col>
     </ion-row>
