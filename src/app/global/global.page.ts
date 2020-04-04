@@ -42,14 +42,14 @@ export class GlobalPage  {
     this.getCountryCases();
     this.getGlobalCases();
 
-    // setInterval(this.runAm, 900000);
+  // setInterval(this.runAm, 900000);
   }
 
   async getGlobalCases() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Loading Global Cases...'
-    });
-    await loading.present();
+    // const loading = await this.loadingCtrl.create({
+    //   message: 'Loading Global Cases...'
+    // });
+    // await loading.present();
 
     await this.http.get(this.baseUrl).subscribe((data: any) => {
       // ('Global');
@@ -65,7 +65,7 @@ export class GlobalPage  {
       localStorage.setItem('globalLastUpdated', data.lastUpdate);
       this.dataBlock = data;
 
-      loading.dismiss();
+      // loading.dismiss();
     });
 
 
