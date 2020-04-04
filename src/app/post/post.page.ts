@@ -11,18 +11,25 @@ import { LoadingController } from '@ionic/angular';
 })
 export class PostPage implements OnInit {
   post: any;
+  url  = '';
+  whatsappUrl = '';
+  id = '';
+  text = "Checkout the latest news on Coronavirus";
 
   constructor(private route: ActivatedRoute, private wp: WordpressService, private loadingCtrl: LoadingController) { }
 
   async ngOnInit() {
     const loading = await this.loadingCtrl.create({
-      message: 'Loading Data...'
+      message: 'Loading News...'
     });
     await loading.present();
-    const id = this.route.snapshot.paramMap.get('id');
-    this.wp.getPostContent(id).subscribe(res => {
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.wp.getPostContent(this.id).subscribe(res => {
       this.post = res;
       //console.log('Post Page | ngOnInit() | This.post : ' + JSON.stringify(res));
+
+      this.url = `https://coronnavirusapp.firebaseapp.com/posts/${this.id}`;
+      this.whatsappUrl = `https://wa.me/?text=${this.url}`;
 
       loading.dismiss();
     });
@@ -35,13 +42,5 @@ export class PostPage implements OnInit {
   openOriginal() {
     window.open(this.post.link, '_blank');
   }
-
-  // share(message,subject, file, url){
-  //   this.social.share(message, subject,file,url).then(() => {
-  //     // Success!
-  //   }).catch(() => {
-  //     // Error!
-  //   });
-  // }
 
 }

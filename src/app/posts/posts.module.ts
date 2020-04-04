@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { PostsPageRoutingModule } from './posts-routing.module';
 
 import { PostsPage } from './posts.page';
+import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PostsPageRoutingModule
+    PostsPageRoutingModule,
+    JwSocialButtonsModule
   ],
   declarations: [PostsPage]
 })

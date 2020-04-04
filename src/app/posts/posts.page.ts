@@ -11,6 +11,8 @@ export class PostsPage implements OnInit {
   posts = [];
   page = 1;
   count = null;
+  url  = 'https://coronnavirusapp.firebaseapp.com/posts/';
+  whatsappUrl = `https://wa.me/?text=${this.url}`;
 
   constructor(private wp: WordpressService, private loadingCtrl: LoadingController) { }
 
@@ -20,13 +22,14 @@ export class PostsPage implements OnInit {
 
   async loadPosts() {
       const loading = await this.loadingCtrl.create({
-        message: 'Loading Data...'
+        message: 'Loading News...'
       });
       await loading.present();
 
       this.wp.getPosts().subscribe( res => {
         this.count = this.wp.totalPosts;
         this.posts = res;
+        console.log(this.posts);
         loading.dismiss();
       });
   }

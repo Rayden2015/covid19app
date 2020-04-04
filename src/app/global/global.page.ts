@@ -4,6 +4,7 @@ import { HttpClient} from '@angular/common/http';
 import { LoadingController } from '@ionic/angular';
 import { WordpressService } from '../services/wordpress.service';
 
+
 @Component({
   selector: 'app-global',
   templateUrl: './global.page.html',
@@ -20,6 +21,10 @@ export class GlobalPage  {
   countryLastUpated: string;
   globalLastUpdated: string;
   msg: string;
+  
+  url = 'https://coronnavirusapp.firebaseapp.com';
+  whatsappUrl = `https://wa.me/?text=${this.url}`;
+  text = "Checkout the latest numbers on Coronavirus";
 
   posts = [];
   page = 1;
@@ -36,9 +41,8 @@ export class GlobalPage  {
     }
     this.getCountryCases();
     this.getGlobalCases();
-    setInterval(this.runAm, 900000);
 
-    //this.loadPosts();
+    // setInterval(this.runAm, 900000);
   }
 
   async getGlobalCases() {
@@ -48,11 +52,11 @@ export class GlobalPage  {
     await loading.present();
 
     await this.http.get(this.baseUrl).subscribe((data: any) => {
-      //('Global');
-      //console.log(data);
+      // ('Global');
+      // console.log(data);
 
       if ( data.lastUpdate > localStorage.getItem('globalLastUpdated') ) {
-       //console.log('New Cases Recorded');
+       // console.log('New Cases Recorded');
         this.notifyMe('New Global Cases Reported');
       } else {
        // console.log('Nothinng has changed');
@@ -71,8 +75,8 @@ export class GlobalPage  {
 
   async countries() {
     await this.http.get('https://restcountries.eu/rest/v2/').subscribe((data: any) => {
-      //console.log('Countries');
-      //console.log(data);
+      // console.log('Countries');
+      // console.log(data);
       this.countriesBlock = data;
     });
   }
@@ -83,16 +87,16 @@ export class GlobalPage  {
     });
     await loading.present();
     localStorage.setItem('DefaultCountry', this.selectedCountry);
-    //('Country Selected : ');
-    //console.log(this.selectedCountry);
+    // ('Country Selected : ');
+    // console.log(this.selectedCountry);
     await this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
-      //console.log('Country Cases');
-      //console.log(data);
+      // console.log('Country Cases');
+      // console.log(data);
       if ( data.lastUpdate > localStorage.getItem('countryLastUpdated') ) {
-        //console.log('New Case Recorded');
+        // console.log('New Case Recorded');
         this.notifyMe('New Cases Reported in ' + this.selectedCountry);
       } else {
-        //console.log('Nothinng has changed');
+        // console.log('Nothinng has changed');
       }
       localStorage.setItem('countryLastUpdated', data.lastUpdate);
       this.countryCases = data;
@@ -103,17 +107,10 @@ export class GlobalPage  {
 
   }
 
-  runAm() {
-    console.log('RUN AM');
-    this.getGlobalCases();
-    this.getCountryCases();
-    //this.loadPosts();
-  }
-
 
    notifyMe(msg: string) {
     if (!Notification) {
-        //console.log('Browser does not support notifications.');
+        // console.log('Browser does not support notifications.');
     } else {
         // check if permission is already granted
         if (Notification.permission === 'granted') {
@@ -143,7 +140,7 @@ export class GlobalPage  {
 
 goToNews() {
   this.router.navigate(['/posts']);
- //this.router.navigateByUrl('/posts');
+ // this.router.navigateByUrl('/posts');
 }
 
 

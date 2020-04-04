@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <!-- [routerLink]="['/', 'about']" -->
@@ -24,7 +24,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Live Updates | Coronavirus</ion-title>
+      <ion-title size="large">Coronavirus | Live Updates</ion-title>
     </ion-toolbar>
   </ion-header>
   
@@ -33,7 +33,11 @@
       Global Cases
     </ion-label>
   </ion-item-divider>
-  <p class="ion-text-center">Last updated : {{dataBlock.lastUpdate | date: 'medium' }}</p>
+ 
+
+
+  <ion-card>
+    <!-- <p class="ion-text-center">Last updated : {{this.dataBlock.lastUpdate | date: 'medium' }}</p> -->
 <ion-grid>
   <ion-row>
       <ion-col>
@@ -47,7 +51,7 @@
 
   <ion-row>
     <ion-col>
-      <ion-card class="ion-text-center recovered" color="green">
+      <ion-card class="ion-text-center recovered" >
         <ion-card-title class="text-recovered" >Recovered</ion-card-title>
        <h1 class="text-center">{{this.dataBlock.recovered.value}}</h1>
        <span>{{this.dataBlock.recovered.value / this.dataBlock.confirmed.value | percent}}</span>
@@ -64,10 +68,19 @@
    </ion-card>
   </ion-col>
   </ion-row>
-      
-  
+
 </ion-grid>
-  
+
+<div class="divshare">
+  <fb-like url={{this.url}}></fb-like>
+  <a href="{{this.whatsappUrl}}" data-action="share/whatsapp/share">Whatsapp <ion-icon name="logo-whatsapp"></ion-icon></a>
+  <tweet url={{this.url}} text={{text}}></tweet>
+</div>
+
+</ion-card>
+
+
+
 
   <ion-item-divider>
     <ion-label>Country Cases</ion-label> 
@@ -78,11 +91,13 @@
       Select country
     </ion-label>
     <ion-select cancelText="Nah" okText="Okay!" (ionChange)="getCountryCases()" [(ngModel)]="this.selectedCountry"> 
-      <ion-select-option value="{{country.alpha2Code}}" *ngFor="let country of countriesBlock" >{{country.name}}</ion-select-option>
+      <ion-select-option value="{{this.country.alpha2Code}}" *ngFor="let country of countriesBlock" >{{this.country.name}}</ion-select-option>
     </ion-select>
   </ion-item>
+
+  <ion-card>
   <ion-grid>
-    <p class="ion-text-center">Last updated : {{countryCases.lastUpdate | date: 'medium' }}</p>
+    <p class="ion-text-center">Last updated : {{this.countryCases.lastUpdate | date: 'medium' }}</p>
     <ion-row>
       <ion-col>
         <ion-card class="ion-text-center confirmed" >
@@ -108,6 +123,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+</ion-card>
   
 <!-- 
   <ion-item-divider>
@@ -131,10 +147,6 @@
   <ion-infinite-scroll threshold="900px" (ionInfinite)="loadMore($event)">
     <ion-infinite-scroll-content loadingText="Loading more news..."></ion-infinite-scroll-content>
   </ion-infinite-scroll> -->
-
-
-
-
 
 
 </ion-content>

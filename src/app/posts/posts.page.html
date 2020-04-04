@@ -24,6 +24,13 @@
       <ion-button expand="full" fill="clear" [routerLink]="['/', 'post', post.id ]" text-right>Read More...</ion-button>
       <!-- <ion-button [routerLink]="['/','tab1']" >News</ion-button> -->
     </ion-card-content>
+    <ion-card-header>
+      <div class="divshare">
+        <fb-like url={{this.url}}{{post.id}}></fb-like>
+        <a href="{{this.whatsappUrl}}{{post.id}}" data-action="share/whatsapp/share">Whatsapp <ion-icon name="logo-whatsapp"></ion-icon></a>
+        <tweet url="{{this.url}}{{post.id}}" text={{post.title.rendered}}></tweet>
+      </div>
+    </ion-card-header>
   </ion-card>
 
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">

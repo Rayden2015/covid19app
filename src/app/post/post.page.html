@@ -13,11 +13,26 @@
     <ion-card-header>
       <ion-card-subtitle>{{ post.date_gmt | date }}</ion-card-subtitle>
       <ion-card-title>{{post?.title.rendered}}</ion-card-title>
+      
+      <div class="divshare">
+        <fb-like url={{this.url}}></fb-like>
+        <a href="{{this.whatsappUrl}}" data-action="share/whatsapp/share">Whatsapp <ion-icon name="logo-whatsapp"></ion-icon></a>
+        <tweet url={{this.url}} text={{text}}></tweet>
+      </div>
+      
     </ion-card-header>
   
     <ion-card-content>
       <div [innerHTML]="post?.content.rendered" padding></div>
     </ion-card-content>
+
+    <ion-card-header>
+      <div class="divshare">
+        <fb-like url={{this.url}}></fb-like>
+        <a href="{{this.whatsappUrl}}" data-action="share/whatsapp/share">Whatsapp <ion-icon name="logo-whatsapp"></ion-icon></a>
+        <tweet url={{this.url}} text={{text}}></tweet>
+      </div>
+    </ion-card-header>
   </ion-card>
    
 </ion-content>

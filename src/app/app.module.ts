@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler, Injectable } from "@angular/core";
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -11,15 +11,42 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
+import * as Sentry from "@sentry/browser";
+
+
+
+Sentry.init({
+  dsn: "https://50d69d1d58a048fa9e4ad726b409de86@sentry.io/5177920"
+});
+
+@Injectable()
+export class SentryErrorHandler implements ErrorHandler {
+  constructor() {
+    
+  }
+  handleError(error) {
+    const eventId = Sentry.captureException(error.originalError || error);
+    Sentry.showReportDialog({ eventId });
+  }
+}
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })],
+  imports: [BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule,
+    ServiceWorkerModule.register('ngsw-worker.js',
+    { enabled: environment.production }),
+    JwSocialButtonsModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    SentryErrorHandler
   ],
   bootstrap: [AppComponent]
 })
