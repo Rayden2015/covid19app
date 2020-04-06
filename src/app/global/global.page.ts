@@ -11,7 +11,7 @@ import { WordpressService } from '../services/wordpress.service';
   styleUrls: ['./global.page.scss'],
 })
 
-export class GlobalPage  {
+export class GlobalPage implements OnInit {
   constructor(private http: HttpClient, public loadingCtrl: LoadingController, private router: Router, private wp: WordpressService) {}
   baseUrl = 'https://covid19.mathdro.id/api';
   dataBlock: any;
@@ -21,10 +21,10 @@ export class GlobalPage  {
   countryLastUpated: string;
   globalLastUpdated: string;
   msg: string;
-  
-  url = 'https://coronnavirusapp.firebaseapp.com';
+
+  url         = 'https://coronnavirusapp.firebaseapp.com';
   whatsappUrl = `https://wa.me/?text=${this.url}`;
-  text = "Checkout the latest numbers on Coronavirus";
+  text        = 'Checkout the latest numbers on Coronavirus';
 
   posts = [];
   page = 1;
@@ -42,7 +42,7 @@ export class GlobalPage  {
     this.getCountryCases();
     this.getGlobalCases();
 
-  // setInterval(this.runAm, 900000);
+    // setInterval(this.runAm, 900000);
   }
 
   async getGlobalCases() {
@@ -67,9 +67,6 @@ export class GlobalPage  {
 
       // loading.dismiss();
     });
-
-
-
 
   }
 
@@ -110,7 +107,7 @@ export class GlobalPage  {
 
    notifyMe(msg: string) {
     if (!Notification) {
-        // console.log('Browser does not support notifications.');
+        console.log('Browser does not support notifications.');
     } else {
         // check if permission is already granted
         if (Notification.permission === 'granted') {
@@ -136,11 +133,6 @@ export class GlobalPage  {
             });
         }
     }
-}
-
-goToNews() {
-  this.router.navigate(['/posts']);
- // this.router.navigateByUrl('/posts');
 }
 
 
