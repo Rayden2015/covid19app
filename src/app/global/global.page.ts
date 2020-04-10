@@ -12,16 +12,15 @@ import { WordpressService } from '../services/wordpress.service';
 })
 
 export class GlobalPage implements OnInit {
-  constructor(private http: HttpClient, public loadingCtrl: LoadingController, private router: Router, private wp: WordpressService) {}
+  constructor(private http: HttpClient, private router: Router, private wp: WordpressService) {}
   baseUrl = 'https://covid19.mathdro.id/api';
-  dataBlock: any;
+  globalCases: any;
   countriesBlock: any;
   countryCases: any;
   selectedCountry: string;
   countryLastUpated: string;
   globalLastUpdated: string;
   msg: string;
-
   url         = 'https://coronnavirusapp.firebaseapp.com';
   whatsappUrl = `https://wa.me/?text=${this.url}`;
   text        = 'Checkout the latest numbers on Coronavirus';
@@ -39,18 +38,11 @@ export class GlobalPage implements OnInit {
     } else {
       this.selectedCountry = 'GH';
     }
-    this.getCountryCases();
-    this.getGlobalCases();
-
-    // setInterval(this.runAm, 900000);
+    this.runAm();
+    setInterval(this.runAm, 900000);  
   }
 
   async getGlobalCases() {
-    // const loading = await this.loadingCtrl.create({
-    //   message: 'Loading Global Cases...'
-    // });
-    // await loading.present();
-
     await this.http.get(this.baseUrl).subscribe((data: any) => {
       // ('Global');
       // console.log(data);
@@ -63,9 +55,7 @@ export class GlobalPage implements OnInit {
       }
 
       localStorage.setItem('globalLastUpdated', data.lastUpdate);
-      this.dataBlock = data;
-
-      // loading.dismiss();
+      this.globalCases = data;
     });
 
   }
@@ -79,16 +69,12 @@ export class GlobalPage implements OnInit {
   }
 
   async getCountryCases() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Loading Country Cases...'
-    });
-    await loading.present();
     localStorage.setItem('DefaultCountry', this.selectedCountry);
     // ('Country Selected : ');
     // console.log(this.selectedCountry);
     await this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
-      // console.log('Country Cases');
-      // console.log(data);
+      //console.log('Country Cases');
+      //console.log(data);
       if ( data.lastUpdate > localStorage.getItem('countryLastUpdated') ) {
         // console.log('New Case Recorded');
         this.notifyMe('New Cases Reported in ' + this.selectedCountry);
@@ -97,9 +83,6 @@ export class GlobalPage implements OnInit {
       }
       localStorage.setItem('countryLastUpdated', data.lastUpdate);
       this.countryCases = data;
-
-      loading.dismiss();
-
     });
 
   }
@@ -135,32 +118,9 @@ export class GlobalPage implements OnInit {
     }
 }
 
-
-async loadPosts() {
-  const loading = await this.loadingCtrl.create({
-    message: 'Loading News...'
-  });
-  await loading.present();
-
-  this.wp.getPosts().subscribe( res => {
-    this.count = this.wp.totalPosts;
-    this.posts = res;
-    loading.dismiss();
-  });
-}
-
-loadMore(event) {
-this.page++;
-
-this.wp.getPosts(this.page).subscribe(res => {
-  this.posts = [...this.posts, ...res];
-  event.target.complete();
-
-  // Disable infinite loading when maximum number of pages is reached
-  if (this.page === this.wp.pages) {
-    event.target.disabled = true;
-  }
-});
+runAm() {
+  this.getCountryCases();
+  this.getGlobalCases();
 }
 
 }

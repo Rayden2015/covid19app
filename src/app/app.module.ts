@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler, Injectable } from "@angular/core";
+import { NgModule, ErrorHandler, Injectable } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -12,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
-import * as Sentry from "@sentry/browser";
+import * as Sentry from '@sentry/browser';
 
 
 
@@ -23,8 +23,9 @@ Sentry.init({
 @Injectable()
 export class SentryErrorHandler implements ErrorHandler {
   constructor() {
-    
+
   }
+
   handleError(error) {
     const eventId = Sentry.captureException(error.originalError || error);
     Sentry.showReportDialog({ eventId });
