@@ -1,34 +1,31 @@
 <ion-header>
   <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">
+      Coronavirus | Live Updates
+    </ion-title>
+
     <ion-buttons slot="start">
       <!-- [routerLink]="['/', 'about']" -->
       <ion-button  href="/about">About
         <ion-icon slot="start" name="information-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    
-    <ion-title class="ion-text-center">
-      Coronavirus | Live Updates
-    </ion-title>
-
+  
     <ion-buttons slot="end">
         <ion-button href="/posts" >News
         <ion-icon slot="end" name="newspaper-outline"></ion-icon>
       </ion-button>
-
-    </ion-buttons>
-    
+    </ion-buttons>  
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
+
+  <!-- <ion-header collapse="condense" color="primary">
+    <ion-toolbar >
       <ion-title size="large">Coronavirus | Live Updates</ion-title>
     </ion-toolbar>
-  </ion-header>
-
-  
+  </ion-header> -->
 
   <ion-item>
     <ion-label>
@@ -47,6 +44,9 @@
   <ion-grid>
     <p class="ion-text-center" *ngIf="this.countryCases">Last updated : {{this.countryCases.lastUpdate | date: 'medium' }}</p>
     <p class="ion-text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text></p>
+
+   
+    
 
     <!-- <ion-icon src="{{this.country.flag}}"></ion-icon> -->
     <ion-row>
@@ -118,8 +118,8 @@
     <ion-col>
       <ion-card class="ion-text-center recovered" >
         <ion-card-title class="text-recovered" >Recovered</ion-card-title>
-       <h1 class="text-center">{{this.globalCases.recovered.value}}</h1>
-       <span>{{this.globalCases.recovered.value / this.globalCases.confirmed.value | percent}}</span>
+       <h1 class="text-center"*ngIf="this.globalCases" >{{this.globalCases.recovered.value}}</h1>
+       <span *ngIf="this.globalCases">{{this.globalCases.recovered.value / this.globalCases.confirmed.value | percent}}</span>
 
        <h1 class="text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
           <span *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text></span>
@@ -155,5 +155,5 @@
   <tweet url={{this.url}} text={{text}}></tweet>
 </div>
 
-</ion-content>
 
+</ion-content>

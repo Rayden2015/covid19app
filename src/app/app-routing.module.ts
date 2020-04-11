@@ -3,7 +3,6 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', redirectTo: 'global', pathMatch: 'full' },
-  { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   { path: 'about', loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)},
   { path: 'global', loadChildren: () => import('./global/global.module').then( m => m.GlobalPageModule)},
   { path: 'posts', loadChildren: () => import('./posts/posts.module').then( m => m.PostsPageModule)},
