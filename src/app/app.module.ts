@@ -14,10 +14,13 @@ import { environment } from '../environments/environment';
 import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
 import * as Sentry from '@sentry/browser';
 
+// import { AngularFireModule } from '@angular/fire';
+// import { AngularFirePerformanceModule } from '@angular/fire/performance';
+
 
 
 Sentry.init({
-  dsn: "https://50d69d1d58a048fa9e4ad726b409de86@sentry.io/5177920"
+  dsn: 'https://50d69d1d58a048fa9e4ad726b409de86@sentry.io/5177920'
 });
 
 @Injectable()
@@ -41,7 +44,9 @@ export class SentryErrorHandler implements ErrorHandler {
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js',
     { enabled: environment.production }),
-    JwSocialButtonsModule
+    JwSocialButtonsModule,
+    // AngularFireModule.initializeApp(environment.firebase),
+    // AngularFirePerformanceModule
   ],
   providers: [
     StatusBar,

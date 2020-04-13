@@ -1,5 +1,5 @@
 import { RouterModule, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { LoadingController } from '@ionic/angular';
 import { WordpressService } from '../services/wordpress.service';
@@ -11,7 +11,7 @@ import { WordpressService } from '../services/wordpress.service';
   styleUrls: ['./global.page.scss'],
 })
 
-export class GlobalPage implements OnInit {
+export class GlobalPage implements AfterViewInit {
   constructor(private http: HttpClient, private router: Router, private wp: WordpressService) {}
   baseUrl = 'https://covid19.mathdro.id/api';
   globalCases: any;
@@ -31,7 +31,18 @@ export class GlobalPage implements OnInit {
 
 
 
-  ngOnInit() {
+  // ngOnInit() {
+  //   this.countries();
+  //   if (localStorage.getItem('DefaultCountry')) {
+  //     this.selectedCountry = localStorage.getItem('DefaultCountry');
+  //   } else {
+  //     this.selectedCountry = 'GH';
+  //   }
+  //   this.runAm();
+  //   setInterval(this.runAm, 1800000); // Run every 30 minutes
+  // }
+
+  ngAfterViewInit() {
     this.countries();
     if (localStorage.getItem('DefaultCountry')) {
       this.selectedCountry = localStorage.getItem('DefaultCountry');
@@ -39,21 +50,20 @@ export class GlobalPage implements OnInit {
       this.selectedCountry = 'GH';
     }
     this.runAm();
-    setInterval(this.runAm, 900000);  
+    setInterval(this.runAm, 1800000); // Run every 30 minutes
   }
 
   async getGlobalCases() {
-    await this.http.get(this.baseUrl).subscribe((data: any) => {
+    console.log('getGlobalCases');
+    this.http.get(this.baseUrl).subscribe((data: any) => {
       // ('Global');
       // console.log(data);
-
-      if ( data.lastUpdate > localStorage.getItem('globalLastUpdated') ) {
-       // console.log('New Cases Recorded');
+      if (data.lastUpdate > localStorage.getItem('globalLastUpdated')) {
+        // console.log('New Cases Recorded');
         this.notifyMe('New Global Cases Reported');
       } else {
-       // console.log('Nothinng has changed');
+        // console.log('Nothinng has changed');
       }
-
       localStorage.setItem('globalLastUpdated', data.lastUpdate);
       this.globalCases = data;
     });
@@ -61,29 +71,30 @@ export class GlobalPage implements OnInit {
   }
 
   async countries() {
-    await this.http.get('https://restcountries.eu/rest/v2/').subscribe((data: any) => {
+    this.http.get('https://restcountries.eu/rest/v2/').subscribe((data: any) => {
       // console.log('Countries');
       // console.log(data);
       this.countriesBlock = data;
     });
   }
 
-  async getCountryCases() {
-    localStorage.setItem('DefaultCountry', this.selectedCountry);
+   async getCountryCases() {
+     console.log('getCountryCases');
+     localStorage.setItem('DefaultCountry', this.selectedCountry);
     // ('Country Selected : ');
     // console.log(this.selectedCountry);
-    await this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
-      //console.log('Country Cases');
-      //console.log(data);
-      if ( data.lastUpdate > localStorage.getItem('countryLastUpdated') ) {
-        // console.log('New Case Recorded');
-        this.notifyMe('New Cases Reported in ' + this.selectedCountry);
-      } else {
-        // console.log('Nothinng has changed');
-      }
-      localStorage.setItem('countryLastUpdated', data.lastUpdate);
-      this.countryCases = data;
-    });
+     this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
+       // console.log('Country Cases');
+       // console.log(data);
+       if (data.lastUpdate > localStorage.getItem('countryLastUpdated')) {
+         // console.log('New Case Recorded');
+         this.notifyMe('New Cases Reported in ' + this.selectedCountry);
+       } else {
+         // console.log('Nothinng has changed');
+       }
+       localStorage.setItem('countryLastUpdated', data.lastUpdate);
+       this.countryCases = data;
+     });
 
   }
 
@@ -119,6 +130,7 @@ export class GlobalPage implements OnInit {
 }
 
 runAm() {
+  console.log('Run Am');
   this.getCountryCases();
   this.getGlobalCases();
 }

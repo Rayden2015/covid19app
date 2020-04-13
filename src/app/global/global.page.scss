@@ -1,3 +1,20 @@
 .recovered{
     color: green;
+    border-right: 1px solid black;
+}
+
+.confirmed{
+    border-right: 1px solid grey;
+    color: blue;
+}
+
+
+.deaths{
+    color: red;
+}
+
+.learnMore{
+    background-image: url('../../assets/vrs.png');
+    height: auto;
+    width: 100%;
 }

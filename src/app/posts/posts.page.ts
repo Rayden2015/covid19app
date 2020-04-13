@@ -1,5 +1,5 @@
 import { WordpressService } from '../services/wordpress.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 
 @Component({
@@ -7,8 +7,8 @@ import { LoadingController } from '@ionic/angular';
   templateUrl: './posts.page.html',
   styleUrls: ['./posts.page.scss'],
 })
-export class PostsPage implements OnInit {
-  posts = [];
+export class PostsPage implements AfterViewInit {
+  posts: any;
   page = 1;
   count = null;
   url  = 'https://coronnavirusapp.firebaseapp.com/posts/';
@@ -16,21 +16,16 @@ export class PostsPage implements OnInit {
 
   constructor(private wp: WordpressService, private loadingCtrl: LoadingController) { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.loadPosts();
   }
 
   async loadPosts() {
-      const loading = await this.loadingCtrl.create({
-        message: 'Loading News...'
-      });
-      await loading.present();
-
-      this.wp.getPosts().subscribe( res => {
+    console.log('loadPosts()');
+    this.wp.getPosts().subscribe( res => {
         this.count = this.wp.totalPosts;
         this.posts = res;
         console.log(this.posts);
-        loading.dismiss();
       });
   }
 

@@ -21,12 +21,6 @@
 
 <ion-content [fullscreen]="true">
 
-  <!-- <ion-header collapse="condense" color="primary">
-    <ion-toolbar >
-      <ion-title size="large">Coronavirus | Live Updates</ion-title>
-    </ion-toolbar>
-  </ion-header> -->
-
   <ion-item>
     <ion-label>
       Select country
@@ -36,119 +30,103 @@
     </ion-select>
   </ion-item>
 
-  <ion-item-divider>
-    <ion-label>Country Cases</ion-label> 
-  </ion-item-divider>
-
-  <ion-card>
+  
+<ion-card>
   <ion-grid>
-    <p class="ion-text-center" *ngIf="this.countryCases">Last updated : {{this.countryCases.lastUpdate | date: 'medium' }}</p>
-    <p class="ion-text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text></p>
-
-   
-    
-
-    <!-- <ion-icon src="{{this.country.flag}}"></ion-icon> -->
     <ion-row>
-      <ion-col>
-        <ion-card class="ion-text-center confirmed" >
-          <ion-card-title class="text-confirmed" >Confirmed</ion-card-title>
-          <h1 class="text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text></h1>
+      <ion-col>Country Cases</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center confirmed">
+          <ion-card-title class="ion-text-center" >Confirmed</ion-card-title>
+          <h1 class="ion-text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text></h1>
           <span *ngIf="!this.countryCases"> <ion-skeleton-text animated></ion-skeleton-text></span>
-
-          <h1 class="text-center" *ngIf="this.countryCases"> {{this.countryCases.confirmed.value}}</h1>
+          <h1 class="ion-text-center" *ngIf="this.countryCases"> {{this.countryCases.confirmed.value}}</h1>
           <span *ngIf="this.countryCases"> 00</span>
-        </ion-card>
       </ion-col>
-      <ion-col>
-        <ion-card class="ion-text-center recovered">
+      <ion-col class="ion-text-center recovered">
           <ion-card-title class ="text-recovered" >Recovered</ion-card-title>
          <h1 class="text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
          <span *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text></span>
-
          <h1 class="text-center" *ngIf="this.countryCases"> {{this.countryCases.recovered.value}}</h1>
-         <span *ngIf="this.countryCases"> {{this.countryCases.recovered.value / this.countryCases.confirmed.value | percent}}</span>
-         
-       </ion-card>
+         <span *ngIf="this.countryCases"> {{this.countryCases.recovered.value / this.countryCases.confirmed.value | percent: '1.1-1'}}</span>
       </ion-col>
-      <ion-col>
-        <ion-card class="ion-text-center deaths">
+      <ion-col class="ion-text-center deaths">
           <ion-card-title class="text-deaths" >Deaths</ion-card-title>
           <h1 class="text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
           <span *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text></span>
-
           <h1 class="text-center" *ngIf="this.countryCases"> {{this.countryCases.deaths.value}}</h1>
-         <span *ngIf="this.countryCases"> {{this.countryCases.deaths.value / this.countryCases.confirmed.value | percent}}</span>
-         
-
-       </ion-card>
+         <span *ngIf="this.countryCases"> {{this.countryCases.deaths.value / this.countryCases.confirmed.value | percent: '1.1-1'}}</span>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <p *ngIf="this.countryCases">   Last updated : {{this.countryCases.lastUpdate | date: 'medium' }}</p>
+      <p class="ion-text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text></p>
+    </ion-row>
   </ion-grid>
-
 </ion-card>
   
-  <ion-item-divider>
-    <ion-label>
-      Global Cases
-    </ion-label>
-  </ion-item-divider>
  
-
-
-  <ion-card>
-    <p class="ion-text-center" *ngIf="this.globalCases">Last updated : {{this.globalCases.lastUpdate | date: 'medium' }}</p>
-    <p class="ion-text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text></p>
+   
 <ion-grid>
-  <ion-row>
-      <ion-col>
-        <ion-card class="ion-text-center  confirmed">
-          <ion-card-title class="text-confirmed" >Confirmed</ion-card-title>
-          <h1 class="text-center" *ngIf="this.globalCases"> {{this.globalCases.confirmed.value}}</h1>
-          <span *ngIf="this.globalCases">00</span>
-
+  <ion-card>
+    <ion-row>
+      <ion-col>Global Cases</ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col class="ion-text-center  confirmed">
+            <ion-card-title class="text-center" >Confirmed</ion-card-title>
+            <h1 class="text-center" *ngIf="this.globalCases"> {{this.globalCases.confirmed.value}}</h1>
+            <span *ngIf="this.globalCases">00</span>
+            <h1 class="text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
+            <span *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text></span>
+        </ion-col>  
+        <ion-col class="ion-text-center recovered" >
+          <ion-card-title class="text-recovered" >Recovered</ion-card-title>
+          <h1 class="text-center"*ngIf="this.globalCases" >{{this.globalCases.recovered.value}}</h1>
+          <span *ngIf="this.globalCases">{{this.globalCases.recovered.value / this.globalCases.confirmed.value | percent: '1.1-1'}}</span>
           <h1 class="text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
           <span *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text></span>
- 
-        </ion-card>
-      </ion-col>
-  
-
-  
-    <ion-col>
-      <ion-card class="ion-text-center recovered" >
-        <ion-card-title class="text-recovered" >Recovered</ion-card-title>
-       <h1 class="text-center"*ngIf="this.globalCases" >{{this.globalCases.recovered.value}}</h1>
-       <span *ngIf="this.globalCases">{{this.globalCases.recovered.value / this.globalCases.confirmed.value | percent}}</span>
-
-       <h1 class="text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
+        </ion-col>
+        <ion-col class="ion-text-center deaths">
+          <ion-card-title  >Deaths</ion-card-title>
+          <h1 *ngIf="this.globalCases" class="ion-text-center">{{this.globalCases.deaths.value}}</h1>
+          <span *ngIf="this.globalCases">{{this.globalCases.deaths.value / this.globalCases.confirmed.value | percent: '1.1-1'}}</span>
+          <h1 class="text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
           <span *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text></span>
-     </ion-card>
-    </ion-col>
-  
+        </ion-col>
+    </ion-row>
 
-  
-  <ion-col>
-    <ion-card class="ion-text-center deaths">
-      <ion-card-title class ="text-deaths" >Deaths</ion-card-title>
-      <h1 *ngIf="this.globalCases" class="text-center">{{this.globalCases.deaths.value}}</h1>
-      <span *ngIf="this.globalCases">{{this.globalCases.deaths.value / this.globalCases.confirmed.value | percent}}</span>
+    <ion-row>
+      <p class="ion-text-center" *ngIf="this.globalCases">   Last updated : {{this.globalCases.lastUpdate | date: 'medium' }}</p>
+      <p class="ion-text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text></p>
+    </ion-row>
+  </ion-card>
 
-      <h1 class="text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
-      <span *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text></span>
-   </ion-card>
-  </ion-col>
+  <ion-row>
+    <ion-card class="learnMore">
+      <ion-row>
+        <!-- <ion-col>
+          <img src="../../assets/dc.png" >
+        </ion-col> -->
+        <ion-col class="ion-text-right">
+          <h2>Learn more about COVID-19. </h2>
+          <h3>#StayHome</h3>
+         <ion-button href="/posts">Learn More</ion-button>
+        </ion-col>
+      </ion-row>  
+    </ion-card>
   </ion-row>
-
 </ion-grid>
 
-</ion-card>
+
 
 
 
 <ion-item-divider>
   <ion-label>Share</ion-label> 
 </ion-item-divider>
+<br/>
 <div class="divshare">
   <fb-like url={{this.url}}></fb-like>
   <a href="{{this.whatsappUrl}}" data-action="share/whatsapp/share">Whatsapp <ion-icon name="logo-whatsapp"></ion-icon></a>
