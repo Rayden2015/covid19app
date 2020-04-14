@@ -30,18 +30,6 @@ export class GlobalPage implements AfterViewInit {
   count = null;
 
 
-
-  // ngOnInit() {
-  //   this.countries();
-  //   if (localStorage.getItem('DefaultCountry')) {
-  //     this.selectedCountry = localStorage.getItem('DefaultCountry');
-  //   } else {
-  //     this.selectedCountry = 'GH';
-  //   }
-  //   this.runAm();
-  //   setInterval(this.runAm, 1800000); // Run every 30 minutes
-  // }
-
   ngAfterViewInit() {
     this.countries();
     if (localStorage.getItem('DefaultCountry')) {
@@ -55,7 +43,7 @@ export class GlobalPage implements AfterViewInit {
 
   async getGlobalCases() {
     console.log('getGlobalCases');
-    this.http.get(this.baseUrl).subscribe((data: any) => {
+    await this.http.get(this.baseUrl).subscribe((data: any) => {
       // ('Global');
       // console.log(data);
       if (data.lastUpdate > localStorage.getItem('globalLastUpdated')) {
@@ -83,7 +71,7 @@ export class GlobalPage implements AfterViewInit {
      localStorage.setItem('DefaultCountry', this.selectedCountry);
     // ('Country Selected : ');
     // console.log(this.selectedCountry);
-     this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
+     await this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
        // console.log('Country Cases');
        // console.log(data);
        if (data.lastUpdate > localStorage.getItem('countryLastUpdated')) {
@@ -112,7 +100,7 @@ export class GlobalPage implements AfterViewInit {
             });
         } else {
             // request permission from user
-            Notification.requestPermission().then(function(p) {
+            Notification.requestPermission().then(function() {
                 if (p === 'granted') {
                     // show notification here
                     const notify = new Notification('CoronaVirus Updates', {
