@@ -12,28 +12,30 @@ import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
-import * as Sentry from '@sentry/browser';
-
+// import * as Sentry from '@sentry/browser';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { BackgroundFetch, BackgroundFetchConfig } from '@ionic-native/background-fetch/ngx';
 // import { AngularFireModule } from '@angular/fire';
 // import { AngularFirePerformanceModule } from '@angular/fire/performance';
 
 
 
-Sentry.init({
-  dsn: 'https://50d69d1d58a048fa9e4ad726b409de86@sentry.io/5177920'
-});
+// Sentry.init({
+//   dsn: 'https://50d69d1d58a048fa9e4ad726b409de86@sentry.io/5177920'
+// });
 
-@Injectable()
-export class SentryErrorHandler implements ErrorHandler {
-  constructor() {
+// @Injectable()
+// export class SentryErrorHandler implements ErrorHandler {
+//   constructor() {
 
-  }
+//   }
 
-  handleError(error) {
-    const eventId = Sentry.captureException(error.originalError || error);
-    Sentry.showReportDialog({ eventId });
-  }
-}
+//   handleError(error) {
+//     const eventId = Sentry.captureException(error.originalError || error);
+//     Sentry.showReportDialog({ eventId });
+//   }
+// }
 
 @NgModule({
   declarations: [AppComponent],
@@ -52,7 +54,10 @@ export class SentryErrorHandler implements ErrorHandler {
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    SentryErrorHandler
+    // SentryErrorHandler,
+    LocalNotifications,
+    BackgroundMode,
+    BackgroundFetch
   ],
   bootstrap: [AppComponent]
 })

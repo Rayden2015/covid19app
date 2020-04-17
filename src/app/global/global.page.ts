@@ -1,9 +1,7 @@
-import { RouterModule, Router } from '@angular/router';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { Component, AfterViewInit } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
-import { LoadingController } from '@ionic/angular';
-import { WordpressService } from '../services/wordpress.service';
-
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 @Component({
   selector: 'app-global',
@@ -12,7 +10,9 @@ import { WordpressService } from '../services/wordpress.service';
 })
 
 export class GlobalPage implements AfterViewInit {
-  constructor(private http: HttpClient, private router: Router, private wp: WordpressService) {}
+  constructor(private http: HttpClient, private localNotifications: LocalNotifications, private backgroundMode: BackgroundMode) {
+  }
+
   baseUrl = 'https://covid19.mathdro.id/api';
   globalCases: any;
   countriesBlock: any;
@@ -28,17 +28,21 @@ export class GlobalPage implements AfterViewInit {
   posts = [];
   page = 1;
   count = null;
+  counter = 1;
+
 
 
   ngAfterViewInit() {
+    this.backgroundMode.enable();
     this.countries();
     if (localStorage.getItem('DefaultCountry')) {
       this.selectedCountry = localStorage.getItem('DefaultCountry');
     } else {
       this.selectedCountry = 'GH';
     }
-    this.runAm();
-    setInterval(this.runAm, 1800000); // Run every 30 minutes
+    // this.runAm();
+    setInterval(() => this.getUpdates(), 600000);
+    this.notifyApp();
   }
 
   async getGlobalCases() {
@@ -49,6 +53,7 @@ export class GlobalPage implements AfterViewInit {
       if (data.lastUpdate > localStorage.getItem('globalLastUpdated')) {
         // console.log('New Cases Recorded');
         this.notifyMe('New Global Cases Reported');
+        // this.notifyApp('New Global Cases Reported');
       } else {
         // console.log('Nothinng has changed');
       }
@@ -66,17 +71,18 @@ export class GlobalPage implements AfterViewInit {
     });
   }
 
-   async getCountryCases() {
+  async getCountryCases() {
      console.log('getCountryCases');
      localStorage.setItem('DefaultCountry', this.selectedCountry);
     // ('Country Selected : ');
     // console.log(this.selectedCountry);
-     await this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
+     this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
        // console.log('Country Cases');
        // console.log(data);
        if (data.lastUpdate > localStorage.getItem('countryLastUpdated')) {
          // console.log('New Case Recorded');
-         this.notifyMe('New Cases Reported in ' + this.selectedCountry);
+        //  this.notifyMe('New Cases Reported in ' + this.selectedCountry);
+        //  this.notifyApp('New Cases Reported in ' + this.selectedCountry);
        } else {
          // console.log('Nothinng has changed');
        }
@@ -87,7 +93,7 @@ export class GlobalPage implements AfterViewInit {
   }
 
 
-   notifyMe(msg: string) {
+  notifyMe(msg: string) {
     if (!Notification) {
         console.log('Browser does not support notifications.');
     } else {
@@ -100,7 +106,7 @@ export class GlobalPage implements AfterViewInit {
             });
         } else {
             // request permission from user
-            Notification.requestPermission().then(function() {
+            Notification.requestPermission().then(function(p) {
                 if (p === 'granted') {
                     // show notification here
                     const notify = new Notification('CoronaVirus Updates', {
@@ -115,12 +121,67 @@ export class GlobalPage implements AfterViewInit {
             });
         }
     }
+  }
+
+
+
+notifyApp() {
+  console.log('Global Page | notifyApp()');
+    // Schedule a single notification
+  this.localNotifications.schedule({
+      text: 'Hello Mr Rayden',
+      // sound: isAndroid ? 'file://sound.mp3' : 'file://beep.caf',
+      // data: { secret: key }
+    });
 }
 
 runAm() {
   console.log('Run Am');
   this.getCountryCases();
   this.getGlobalCases();
+  // this.notifyApp('Mr Rayden');
+}
+
+
+ getUpdates() {
+  //  this.notifyMe('Notify from Get Updates()');
+   this.notifyApp();
+   console.log('getUpdates()');
+   console.log('getGlobalCases');
+   this.http.get(this.baseUrl).subscribe((data: any) => {
+      this.globalCases = data;
+      // ('Global');
+      console.log(data);
+      if (data.lastUpdate > localStorage.getItem('globalLastUpdated')) {
+        // console.log('New Cases Recorded');
+        // this.notifyMe('New Global Cases Reported');
+        // this.notifyApp('New Global Cases Reported');
+        this.notifyApp();
+      } else {
+        // console.log('Nothinng has changed');
+      }
+      localStorage.setItem('globalLastUpdated', data.lastUpdate);
+    });
+
+   console.log('getCountryCases');
+   localStorage.setItem('DefaultCountry', this.selectedCountry);
+    // ('Country Selected : ');
+    // console.log(this.selectedCountry);
+   this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
+      this.countryCases = data;
+      console.log('Country Cases');
+      console.log(data);
+      if (data.lastUpdate > localStorage.getItem('countryLastUpdated')) {
+         console.log('New Case Recorded');
+        //  this.notifyMe('New Cases Reported in ' + this.selectedCountry);
+        // this.notifyApp('New Cases Reported in ' + this.selectedCountry);
+         this.notifyApp();
+       } else {
+         // console.log('Nothinng has changed');
+       }
+      localStorage.setItem('countryLastUpdated', data.lastUpdate);
+     });
+
 }
 
 }
