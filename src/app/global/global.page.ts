@@ -40,9 +40,8 @@ export class GlobalPage implements AfterViewInit {
     } else {
       this.selectedCountry = 'GH';
     }
-    // this.runAm();
-    setInterval(() => this.getUpdates(), 600000);
-    this.notifyApp();
+    this.getUpdates();
+    setInterval(() => this.getUpdates(), 300000);
   }
 
   async getGlobalCases() {
@@ -64,10 +63,11 @@ export class GlobalPage implements AfterViewInit {
   }
 
   async countries() {
-    this.http.get('https://restcountries.eu/rest/v2/').subscribe((data: any) => {
-      // console.log('Countries');
-      // console.log(data);
-      this.countriesBlock = data;
+    console.log('GlobalPage | countries ');
+    this.http.get('https://covid19.mathdro.id/api/countries').subscribe((data: any) => {
+      console.log('Countries');
+      console.log(data);
+      this.countriesBlock = data.countries;
     });
   }
 
@@ -125,12 +125,13 @@ export class GlobalPage implements AfterViewInit {
 
 
 
-notifyApp() {
+notifyApp(msg) {
   console.log('Global Page | notifyApp()');
     // Schedule a single notification
   this.localNotifications.schedule({
-      text: 'Hello Mr Rayden',
+      text: msg,
       // sound: isAndroid ? 'file://sound.mp3' : 'file://beep.caf',
+      sound: null
       // data: { secret: key }
     });
 }
@@ -144,8 +145,6 @@ runAm() {
 
 
  getUpdates() {
-  //  this.notifyMe('Notify from Get Updates()');
-   this.notifyApp();
    console.log('getUpdates()');
    console.log('getGlobalCases');
    this.http.get(this.baseUrl).subscribe((data: any) => {
@@ -156,28 +155,27 @@ runAm() {
         // console.log('New Cases Recorded');
         // this.notifyMe('New Global Cases Reported');
         // this.notifyApp('New Global Cases Reported');
-        this.notifyApp();
+        this.notifyApp('New Global Cases Reported');
       } else {
-        // console.log('Nothinng has changed');
+        console.log('Nothinng has changed');
       }
       localStorage.setItem('globalLastUpdated', data.lastUpdate);
     });
 
    console.log('getCountryCases');
    localStorage.setItem('DefaultCountry', this.selectedCountry);
-    // ('Country Selected : ');
-    // console.log(this.selectedCountry);
+   localStorage.setItem('SelectedCountry Text', this.selectedCountry);
+   console.log('Country Selected : ' + this.selectedCountry);
    this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
       this.countryCases = data;
       console.log('Country Cases');
       console.log(data);
       if (data.lastUpdate > localStorage.getItem('countryLastUpdated')) {
          console.log('New Case Recorded');
-        //  this.notifyMe('New Cases Reported in ' + this.selectedCountry);
-        // this.notifyApp('New Cases Reported in ' + this.selectedCountry);
-         this.notifyApp();
+         this.notifyMe('New Cases Reported in ' + this.selectedCountry);
+         this.notifyApp('New Cases Reported in ' + this.selectedCountry);
        } else {
-         // console.log('Nothinng has changed');
+          console.log('Nothinng has changed');
        }
       localStorage.setItem('countryLastUpdated', data.lastUpdate);
      });

@@ -15,7 +15,6 @@ import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
 // import * as Sentry from '@sentry/browser';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
-import { BackgroundFetch, BackgroundFetchConfig } from '@ionic-native/background-fetch/ngx';
 // import { AngularFireModule } from '@angular/fire';
 // import { AngularFirePerformanceModule } from '@angular/fire/performance';
 
@@ -57,7 +56,6 @@ import { BackgroundFetch, BackgroundFetchConfig } from '@ionic-native/background
     // SentryErrorHandler,
     LocalNotifications,
     BackgroundMode,
-    BackgroundFetch
   ],
   bootstrap: [AppComponent]
 })

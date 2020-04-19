@@ -25,11 +25,10 @@
     <ion-label>
       Select country
     </ion-label>
-    <ion-select cancelText="Nah" okText="Okay!" (ionChange)="getCountryCases()" [(ngModel)]="this.selectedCountry"> 
-      <ion-select-option value="{{this.country.alpha2Code}}" *ngFor="let country of countriesBlock" >{{this.country.name}}</ion-select-option>
+    <ion-select cancelText="Nah" okText="Okay!" (ionChange)="getCountryCases()" [(ngModel)]="this.selectedCountry" placeholder="{{this.selectedCountry}}"> 
+      <ion-select-option value="{{this.country.iso2}}" *ngFor="let country of countriesBlock" >{{this.country.name}}</ion-select-option>
     </ion-select>
   </ion-item>
-<ion-button (click)="notifyApp()">App Notify</ion-button>
   
 <ion-card>
   <ion-grid>
@@ -38,24 +37,24 @@
     </ion-row>
     <ion-row>
       <ion-col class="ion-text-center confirmed">
-          <ion-card-title class="ion-text-center" >Confirmed</ion-card-title>
-          <h1 class="ion-text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text></h1>
+          <ion-card-subtitle class="ion-text-center" >Confirmed</ion-card-subtitle>
+          <h2 class="ion-text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text></h2>
           <span *ngIf="!this.countryCases"> <ion-skeleton-text animated></ion-skeleton-text></span>
-          <h1 class="ion-text-center" *ngIf="this.countryCases"> {{this.countryCases.confirmed.value}}</h1>
+          <h2 class="ion-text-center" *ngIf="this.countryCases"> {{this.countryCases.confirmed.value}}</h2>
           <span *ngIf="this.countryCases"> 00</span>
       </ion-col>
       <ion-col class="ion-text-center recovered">
-          <ion-card-title class ="text-recovered" >Recovered</ion-card-title>
-         <h1 class="text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
+          <ion-card-subtitle class ="text-recovered" >Recovered</ion-card-subtitle>
+         <h2 class="text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text> </h2>
          <span *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text></span>
-         <h1 class="text-center" *ngIf="this.countryCases"> {{this.countryCases.recovered.value}}</h1>
+         <h2 class="text-center" *ngIf="this.countryCases"> {{this.countryCases.recovered.value}}</h2>
          <span *ngIf="this.countryCases"> {{this.countryCases.recovered.value / this.countryCases.confirmed.value | percent: '1.1-1'}}</span>
       </ion-col>
       <ion-col class="ion-text-center deaths">
-          <ion-card-title class="text-deaths" >Deaths</ion-card-title>
-          <h1 class="text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
+          <ion-card-subtitle class="text-deaths" >Deaths</ion-card-subtitle>
+          <h2 class="text-center" *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text> </h2>
           <span *ngIf="!this.countryCases"><ion-skeleton-text animated></ion-skeleton-text></span>
-          <h1 class="text-center" *ngIf="this.countryCases"> {{this.countryCases.deaths.value}}</h1>
+          <h2 class="text-center" *ngIf="this.countryCases"> {{this.countryCases.deaths.value}}</h2>
          <span *ngIf="this.countryCases"> {{this.countryCases.deaths.value / this.countryCases.confirmed.value | percent: '1.1-1'}}</span>
       </ion-col>
     </ion-row>
@@ -75,24 +74,24 @@
     </ion-row>
     <ion-row>
         <ion-col class="ion-text-center  confirmed">
-            <ion-card-title class="text-center" >Confirmed</ion-card-title>
-            <h1 class="text-center" *ngIf="this.globalCases"> {{this.globalCases.confirmed.value}}</h1>
+            <ion-card-subtitle class="text-center" >Confirmed</ion-card-subtitle>
+            <h2 class="text-center" *ngIf="this.globalCases"> {{this.globalCases.confirmed.value}}</h2>
             <span *ngIf="this.globalCases">00</span>
-            <h1 class="text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
+            <h2 class="text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text> </h2>
             <span *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text></span>
         </ion-col>  
         <ion-col class="ion-text-center recovered" >
-          <ion-card-title class="text-recovered" >Recovered</ion-card-title>
-          <h1 class="text-center"*ngIf="this.globalCases" >{{this.globalCases.recovered.value}}</h1>
+          <ion-card-subtitle class="text-recovered" >Recovered</ion-card-subtitle>
+          <h2 class="text-center"*ngIf="this.globalCases" >{{this.globalCases.recovered.value}}</h2>
           <span *ngIf="this.globalCases">{{this.globalCases.recovered.value / this.globalCases.confirmed.value | percent: '1.1-1'}}</span>
-          <h1 class="text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
+          <h2 class="text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text> </h2>
           <span *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text></span>
         </ion-col>
         <ion-col class="ion-text-center deaths">
-          <ion-card-title  >Deaths</ion-card-title>
-          <h1 *ngIf="this.globalCases" class="ion-text-center">{{this.globalCases.deaths.value}}</h1>
+          <ion-card-subtitle  >Deaths</ion-card-subtitle>
+          <h2 *ngIf="this.globalCases" class="ion-text-center">{{this.globalCases.deaths.value}}</h2>
           <span *ngIf="this.globalCases">{{this.globalCases.deaths.value / this.globalCases.confirmed.value | percent: '1.1-1'}}</span>
-          <h1 class="text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text> </h1>
+          <h2 class="text-center" *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text> </h2>
           <span *ngIf="!this.globalCases"><ion-skeleton-text animated></ion-skeleton-text></span>
         </ion-col>
     </ion-row>
