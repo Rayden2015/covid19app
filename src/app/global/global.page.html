@@ -25,7 +25,7 @@
     <ion-label>
       Select country
     </ion-label>
-    <ion-select cancelText="Nah" okText="Okay!" (ionChange)="getCountryCases()" [(ngModel)]="this.selectedCountry" placeholder="{{this.selectedCountry}}"> 
+    <ion-select cancelText="Nah" okText="Okay!" (ionChange)="getUpdates()" [(ngModel)]="this.selectedCountry" placeholder="{{this.selectedCountry}}"> 
       <ion-select-option value="{{this.country.iso2}}" *ngFor="let country of countriesBlock" >{{this.country.name}}</ion-select-option>
     </ion-select>
   </ion-item>

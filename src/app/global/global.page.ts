@@ -25,12 +25,6 @@ export class GlobalPage implements AfterViewInit {
   whatsappUrl = `https://wa.me/?text=${this.url}`;
   text        = 'Checkout the latest numbers on Coronavirus';
 
-  posts = [];
-  page = 1;
-  count = null;
-  counter = 1;
-
-
 
   ngAfterViewInit() {
     this.backgroundMode.enable();
@@ -44,23 +38,6 @@ export class GlobalPage implements AfterViewInit {
     setInterval(() => this.getUpdates(), 300000);
   }
 
-  async getGlobalCases() {
-    console.log('getGlobalCases');
-    await this.http.get(this.baseUrl).subscribe((data: any) => {
-      // ('Global');
-      // console.log(data);
-      if (data.lastUpdate > localStorage.getItem('globalLastUpdated')) {
-        // console.log('New Cases Recorded');
-        this.notifyMe('New Global Cases Reported');
-        // this.notifyApp('New Global Cases Reported');
-      } else {
-        // console.log('Nothinng has changed');
-      }
-      localStorage.setItem('globalLastUpdated', data.lastUpdate);
-      this.globalCases = data;
-    });
-
-  }
 
   async countries() {
     console.log('GlobalPage | countries ');
@@ -69,27 +46,6 @@ export class GlobalPage implements AfterViewInit {
       console.log(data);
       this.countriesBlock = data.countries;
     });
-  }
-
-  async getCountryCases() {
-     console.log('getCountryCases');
-     localStorage.setItem('DefaultCountry', this.selectedCountry);
-    // ('Country Selected : ');
-    // console.log(this.selectedCountry);
-     this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
-       // console.log('Country Cases');
-       // console.log(data);
-       if (data.lastUpdate > localStorage.getItem('countryLastUpdated')) {
-         // console.log('New Case Recorded');
-        //  this.notifyMe('New Cases Reported in ' + this.selectedCountry);
-        //  this.notifyApp('New Cases Reported in ' + this.selectedCountry);
-       } else {
-         // console.log('Nothinng has changed');
-       }
-       localStorage.setItem('countryLastUpdated', data.lastUpdate);
-       this.countryCases = data;
-     });
-
   }
 
 
@@ -136,22 +92,16 @@ notifyApp(msg) {
     });
 }
 
-runAm() {
-  console.log('Run Am');
-  this.getCountryCases();
-  this.getGlobalCases();
-  // this.notifyApp('Mr Rayden');
-}
-
 
  getUpdates() {
    console.log('getUpdates()');
    console.log('getGlobalCases');
    this.http.get(this.baseUrl).subscribe((data: any) => {
       this.globalCases = data;
-      // ('Global');
+      localStorage.setItem('GlobalConfirmedCases', data.confirmed.value);
+      console.log('Global Cases');
       console.log(data);
-      if (data.lastUpdate > localStorage.getItem('globalLastUpdated')) {
+      if (data.confirmed.value > localStorage.getItem('GlobalConfirmedCases')) {
         // console.log('New Cases Recorded');
         // this.notifyMe('New Global Cases Reported');
         // this.notifyApp('New Global Cases Reported');
@@ -168,9 +118,10 @@ runAm() {
    console.log('Country Selected : ' + this.selectedCountry);
    this.http.get(`https://covid19.mathdro.id/api/countries/${this.selectedCountry}`).subscribe((data: any) => {
       this.countryCases = data;
+      localStorage.setItem('CountryConfirmedCases', data.confirmed.value);
       console.log('Country Cases');
       console.log(data);
-      if (data.lastUpdate > localStorage.getItem('countryLastUpdated')) {
+      if (data.confirmed.value > localStorage.getItem('CountryConfirmedCases')) {
          console.log('New Case Recorded');
          this.notifyMe('New Cases Reported in ' + this.selectedCountry);
          this.notifyApp('New Cases Reported in ' + this.selectedCountry);
