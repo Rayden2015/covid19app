@@ -1,7 +1,10 @@
-import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+//import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Component, AfterViewInit } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { Plugins } from '@capacitor/core';
+const { LocalNotifications } = Plugins;
+
 
 @Component({
   selector: 'app-global',
@@ -10,7 +13,7 @@ import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 })
 
 export class GlobalPage implements AfterViewInit {
-  constructor(private http: HttpClient, private localNotifications: LocalNotifications, private backgroundMode: BackgroundMode) {
+  constructor(private http: HttpClient, private backgroundMode: BackgroundMode) {
   }
 
   baseUrl = 'https://covid19.mathdro.id/api';
@@ -80,18 +83,23 @@ export class GlobalPage implements AfterViewInit {
   }
 
 
+notifyApp(msg){
+  LocalNotifications.schedule({
+    notifications: [
+      {
+        title: "CoronaAppByNuru",
+        body: msg,
+        id: 1,
+        schedule: { at: new Date(Date.now()) },
+        sound: null,
+        attachments: null,
+        actionTypeId: "",
+        extra: null
+      }
+    ]
+  });
 
-notifyApp(msg) {
-  console.log('Global Page | notifyApp()');
-    // Schedule a single notification
-  this.localNotifications.schedule({
-      text: msg,
-      // sound: isAndroid ? 'file://sound.mp3' : 'file://beep.caf',
-      sound: null
-      // data: { secret: key }
-    });
 }
-
 
  getUpdates() {
    console.log('getUpdates()');
