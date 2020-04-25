@@ -44,7 +44,7 @@ export class GlobalPage implements AfterViewInit {
 
   async countries() {
     console.log('GlobalPage | countries ');
-    this.http.get('https://covid19.mathdro.id/api/countries').subscribe((data: any) => {
+    await this.http.get('https://covid19.mathdro.id/api/countries').subscribe((data: any) => {
       console.log('Countries');
       console.log(data);
       this.countriesBlock = data.countries;
@@ -61,7 +61,7 @@ export class GlobalPage implements AfterViewInit {
             // show notification here
             const notify = new Notification('CoronaVirus Updates', {
                 body: msg,
-                icon: 'https://cdn1.vectorstock.com/i/1000x1000/39/10/corona-virus-icon-vector-29383910.jpg',
+                icon: '../../assets/icon/favicon.png',
             });
         } else {
             // request permission from user
@@ -70,7 +70,7 @@ export class GlobalPage implements AfterViewInit {
                     // show notification here
                     const notify = new Notification('CoronaVirus Updates', {
                         body: msg,
-                        icon: 'https://cdn1.vectorstock.com/i/1000x1000/39/10/corona-virus-icon-vector-29383910.jpg',
+                        icon: '../../assets/icon/favicon.png',
                     });
                 } else {
                     console.log('User blocked notifications.');

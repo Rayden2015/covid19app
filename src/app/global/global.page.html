@@ -30,13 +30,12 @@
     </ion-select>
   </ion-item>
   
-  Hello <span class="flag-icon flag-icon-gr flag-icon-squared"></span>
-  <span class="flag-icon flag-icon-gr"></span>
-
 <ion-card>
   <ion-grid>
     <ion-row>
       <ion-col>Country Cases</ion-col>
+      <ion-col></ion-col>
+      <ion-col class="ion-text-right"><a (click)="getUpdates()">Refresh</a></ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="ion-text-center confirmed">
@@ -74,6 +73,8 @@
   <ion-card>
     <ion-row>
       <ion-col>Global Cases</ion-col>
+      <ion-col></ion-col>
+      <ion-col class="ion-text-right"><a (click)="getUpdates()">Refresh</a></ion-col>
     </ion-row>
     <ion-row>
         <ion-col class="ion-text-center  confirmed">

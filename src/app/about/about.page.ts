@@ -20,14 +20,14 @@ export class AboutPage implements OnInit {
 
   countries() {
     this.http.get('https://restcountries.eu/rest/v2/').subscribe((data) => {
-      //console.log('Countries');
-      //console.log(data);
+      // console.log('Countries');
+      // console.log(data);
       this.countriesBlock = data;
     });
   }
 
   setDefaultCountry() {
-   // console.log('setDefaultCountry ');
+    console.log('setDefaultCountry ');
     localStorage.setItem('DefaultCountry', this.defaultCountry);
 
   }
