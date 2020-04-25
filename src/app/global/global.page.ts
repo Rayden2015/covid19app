@@ -87,7 +87,7 @@ notifyApp(msg){
   LocalNotifications.schedule({
     notifications: [
       {
-        title: "CoronaAppByNuru",
+        title: "CovidAssist",
         body: msg,
         id: 1,
         schedule: { at: new Date(Date.now()) },

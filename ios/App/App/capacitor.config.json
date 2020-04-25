@@ -1,8 +1,0 @@
-{
-  "appId": "io.nurudin.covid19",
-  "appName": "CoronaAppByNuru",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www",
-  "cordova": {}
-}

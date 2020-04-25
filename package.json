@@ -1,5 +1,5 @@
 {
-  "name": "CoronaAppByNuru",
+  "name": "CovidAssist",
   "version": "0.0.1",
   "author": "Nurudin Lartey",
   "homepage": "https://twitter.com/niirayden",
@@ -82,7 +82,7 @@
   "resolutions": {
     "@babel/preset-env": "7.8.0"
   },
-  "description": "Ionic/Angular application for providing realtime statistics and news on the Novel Corona Virus ",
+  "description": "To provide realtime statistics and news on the Novel Corona Virus ",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
